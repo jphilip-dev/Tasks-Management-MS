@@ -3,6 +3,7 @@ package com.jphilip.tm.task.controller;
 import com.jphilip.tm.task.dto.TaskRequestDTO;
 import com.jphilip.tm.task.dto.TaskResponseDTO;
 import com.jphilip.tm.task.service.TaskService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -35,13 +36,13 @@ public class TaskController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TaskResponseDTO createTask(@RequestBody TaskRequestDTO taskRequestDTO){
+    public TaskResponseDTO createTask(@Valid @RequestBody TaskRequestDTO taskRequestDTO){
         return taskService.createTask(taskRequestDTO);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public TaskResponseDTO updateTask(@RequestBody TaskRequestDTO taskRequestDTO, @PathVariable Long id){
+    public TaskResponseDTO updateTask(@Valid @RequestBody TaskRequestDTO taskRequestDTO, @PathVariable Long id){
         return  taskService.updateTask(taskRequestDTO, id);
     }
 
