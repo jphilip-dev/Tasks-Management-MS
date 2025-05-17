@@ -16,6 +16,7 @@
 
     <modules>
         <module>taskservice</module>
+        <module>apigateway</module>
     </modules>
 
 </project>
