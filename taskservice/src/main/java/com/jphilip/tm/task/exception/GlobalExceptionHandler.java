@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
                 errorCode.getHttpStatus().value(),
                 errorCode.getHttpStatus().getReasonPhrase(),
                 responseMessage,
-                request.getDescription(false).replace("uri=/", "")
+                request.getDescription(false).replace("uri=", "")
         );
 
         return new ResponseEntity<>(exceptionResponseDTO,errorCode.getHttpStatus());
