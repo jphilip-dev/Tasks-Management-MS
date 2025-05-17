@@ -1,4 +1,4 @@
-package com.jphilip.tm.task;
+package com.jphilip.tm.task.enums;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

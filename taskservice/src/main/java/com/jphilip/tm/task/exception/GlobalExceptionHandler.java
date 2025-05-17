@@ -1,6 +1,6 @@
 package com.jphilip.tm.task.exception;
 
-import com.jphilip.tm.task.ErrorCode;
+import com.jphilip.tm.task.enums.ErrorCode;
 import com.jphilip.tm.task.dto.ExceptionResponseDTO;
 import com.jphilip.tm.task.exception.custom.TaskException;
 import lombok.extern.slf4j.Slf4j;

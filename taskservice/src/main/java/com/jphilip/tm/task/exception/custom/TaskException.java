@@ -1,6 +1,6 @@
 package com.jphilip.tm.task.exception.custom;
 
-import com.jphilip.tm.task.ErrorCode;
+import com.jphilip.tm.task.enums.ErrorCode;
 import lombok.Getter;
 
 @Getter

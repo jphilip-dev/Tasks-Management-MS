@@ -1,6 +1,6 @@
 package com.jphilip.tm.task.service;
 
-import com.jphilip.tm.task.ErrorCode;
+import com.jphilip.tm.task.enums.ErrorCode;
 import com.jphilip.tm.task.dto.TaskRequestDTO;
 import com.jphilip.tm.task.dto.TaskResponseDTO;
 import com.jphilip.tm.task.entity.Task;
