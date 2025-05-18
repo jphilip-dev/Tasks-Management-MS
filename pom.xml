@@ -15,7 +15,7 @@
     </properties>
 
     <modules>
-        <module>taskservice</module>
+        <module>task-service</module>
         <module>apigateway</module>
     </modules>
 
