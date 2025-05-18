@@ -1,0 +1,12 @@
+server:
+  port: 4004
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        # Route for /auth/ to auth-service
+        - id: task-service-route
+          uri: http://localhost:8080
+          predicates:
+            - Path=/tasks/**
