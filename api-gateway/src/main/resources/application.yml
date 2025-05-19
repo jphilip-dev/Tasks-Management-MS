@@ -1,11 +1,11 @@
 server:
-  port: 4004
+  port: 8080
 
 spring:
   cloud:
     gateway:
       routes:
         - id: task-service-route
-          uri: http://localhost:8081
+          uri: ${TASK_SERVICE_URI}
           predicates:
             - Path=/tasks/**
