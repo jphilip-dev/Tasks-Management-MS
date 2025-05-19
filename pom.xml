@@ -15,8 +15,9 @@
     </properties>
 
     <modules>
-        <module>task-service</module>
         <module>api-gateway</module>
+        <module>task-service</module>
+        <module>user-service</module>
     </modules>
 
 </project>
