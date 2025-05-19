@@ -10,7 +10,7 @@ import java.util.*;
 @Table(name = "users")
 @Data
 @Builder
-public class User implements Comparable<User>{
+public class User implements Comparable<User> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,7 +59,7 @@ public class User implements Comparable<User>{
      *
      */
 
-    public void addRole(Role role){
+    public void addRole(Role role) {
         if (roles == null) {
             roles = new HashSet<>();
         }

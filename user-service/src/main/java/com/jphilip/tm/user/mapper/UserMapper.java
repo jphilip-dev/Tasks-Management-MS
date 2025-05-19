@@ -1,5 +1,6 @@
 package com.jphilip.tm.user.mapper;
 
+import com.jphilip.tm.user.dto.UserRequestDTO;
 import com.jphilip.tm.user.dto.UserResponseDTO;
 import com.jphilip.tm.user.entity.Role;
 import com.jphilip.tm.user.entity.User;
@@ -24,6 +25,14 @@ public class UserMapper {
                 .teamMembers(user.getTeamMembers() != null
                         ? user.getTeamMembers().stream().map(User::getName).toList()
                         : List.of())
+                .build();
+    }
+
+    public User toEntity(UserRequestDTO userRequestDTO){
+        return User.builder()
+                .email(userRequestDTO.getEmail())
+                .name(userRequestDTO.getName())
+                .password(userRequestDTO.getPassword())
                 .build();
     }
 }
