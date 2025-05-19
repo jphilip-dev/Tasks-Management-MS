@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .     # path to Dockerfile
+      dockerfile: Dockerfile
+    image: api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - TASK_SERVICE_URI=http://task-service:8081
+    networks:
+      - internal
+
+networks:
+  internal:
+    external: true
