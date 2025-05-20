@@ -9,7 +9,6 @@ import com.jphilip.tm.user.repository.UserRepository;
 import com.jphilip.tm.user.service.util.command.Command;
 import com.jphilip.tm.user.service.util.command.dto.UpdateUserDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +42,9 @@ public class UpdateUserService implements Command<UpdateUserDTO, UserResponseDTO
         if (!user.getEmail().equals(userRequestDTO.getEmail())){
             throw new EmailMismatchException();
         }
+
+        // check ownership once auth service is ok
+
 
         // Update user fields base on the userRequestDTO
         user.setName(userRequestDTO.getName());
