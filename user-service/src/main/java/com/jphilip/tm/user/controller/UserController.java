@@ -18,26 +18,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final GetAllUsersService getAllUsersService;
-    private final GetUserByEmailService getUserByEmailService;
-    private final GetUserByIdService getUserByIdService;
+    private final GetUsersServiceHandler getUsersServiceHandler;
     private final CreateUserService createUserService;
     private final UpdateUserService updateUserService;
 
     @GetMapping
     public ResponseEntity<List<UserResponseDTO>> getAllUsers(){
-        var response = getAllUsersService.execute(null);
+        var response = getUsersServiceHandler.getAllUsers();
         return ResponseEntity.ok(response);
     }
 
     @GetMapping("/email/{email}")
     public ResponseEntity<UserResponseDTO> getUserByEmail(@PathVariable String email){
-        var response = getUserByEmailService.execute(email);
+        var response = getUsersServiceHandler.getUserByEmail(email);
         return ResponseEntity.ok(response);
     }
     @GetMapping("/id/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id){
-        var response = getUserByIdService.execute(id);
+        var response = getUsersServiceHandler.getUserById(id);
         return ResponseEntity.ok(response);
     }
 

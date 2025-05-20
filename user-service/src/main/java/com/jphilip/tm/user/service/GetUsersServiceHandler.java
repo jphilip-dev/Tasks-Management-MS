@@ -11,13 +11,22 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class GetAllUsersService implements Query<Void, List<UserResponseDTO>> {
+public class GetUsersServiceHandler {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
-    @Override
-    public List<UserResponseDTO> execute(Void input) {
+    public List<UserResponseDTO> getAllUsers() {
         return userRepository.findAll().stream().map(userMapper::toDto).toList();
+    }
+
+    public UserResponseDTO getUserByEmail(String email) {
+        var user = userRepository.findByEmail(email).orElseThrow();
+        return userMapper.toDto(user);
+    }
+
+    public UserResponseDTO getUserById(Long id) {
+        var user = userRepository.findById(id).orElseThrow();
+        return userMapper.toDto(user);
     }
 }
