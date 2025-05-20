@@ -2,7 +2,7 @@ package com.jphilip.tm.user.service;
 
 import com.jphilip.tm.user.dto.UserResponseDTO;
 import com.jphilip.tm.user.entity.Role;
-import com.jphilip.tm.user.exception.custom.FieldErrorsException;
+import com.jphilip.tm.user.exception.custom.FieldErrorException;
 import com.jphilip.tm.user.mapper.UserMapper;
 import com.jphilip.tm.user.repository.RoleRepository;
 import com.jphilip.tm.user.repository.UserRepository;
@@ -10,6 +10,7 @@ import com.jphilip.tm.user.service.util.command.Command;
 import com.jphilip.tm.user.service.util.command.dto.CreateUserDTO;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 
@@ -21,6 +22,7 @@ public class CreateUserService implements Command<CreateUserDTO, UserResponseDTO
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
     private final UserMapper userMapper;
 
     @Override
@@ -35,10 +37,13 @@ public class CreateUserService implements Command<CreateUserDTO, UserResponseDTO
 
         // check binding result
         if (bindingResult.hasErrors()){
-            throw new FieldErrorsException(bindingResult);
+            throw new FieldErrorException(bindingResult);
         }
 
         var newUser = userMapper.toEntity(createUserDTO.userRequestDTO());
+
+        // Parse Password
+        newUser.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
 
         newUser.setIsActive(true); // dev
 

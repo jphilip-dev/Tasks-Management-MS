@@ -4,11 +4,11 @@ import lombok.Getter;
 import org.springframework.validation.BindingResult;
 
 @Getter
-public class FieldErrorsException extends RuntimeException {
+public class FieldErrorException extends RuntimeException {
 
     private final BindingResult bindingResult;
 
-    public FieldErrorsException(BindingResult bindingResult) {
+    public FieldErrorException(BindingResult bindingResult) {
         super();
         this.bindingResult = bindingResult;
     }

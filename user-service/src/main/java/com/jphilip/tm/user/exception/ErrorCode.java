@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     ERROR_EMAIL_NOT_FOUND(HttpStatus.NOT_FOUND),
-    ERROR_ID_NOT_FOUND(HttpStatus.NOT_FOUND);
+    ERROR_EMAIL_MISMATCH(HttpStatus.BAD_REQUEST),
+    ERROR_ID_NOT_FOUND(HttpStatus.NOT_FOUND),
+    ERROR_FIELD_VALUE(HttpStatus.BAD_REQUEST);
 
     private final HttpStatus httpStatus;
-
-
 }
