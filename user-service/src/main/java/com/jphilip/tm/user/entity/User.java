@@ -1,8 +1,10 @@
 package com.jphilip.tm.user.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.*;
 
@@ -10,6 +12,8 @@ import java.util.*;
 @Table(name = "users")
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User implements Comparable<User> {
 
     @Id
