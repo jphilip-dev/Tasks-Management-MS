@@ -1,6 +1,9 @@
 package com.jphilip.tm.user.service;
 
 import com.jphilip.tm.user.dto.UserResponseDTO;
+import com.jphilip.tm.user.exception.ErrorCode;
+import com.jphilip.tm.user.exception.custom.EmailNotFoundException;
+import com.jphilip.tm.user.exception.custom.IdNotFoundException;
 import com.jphilip.tm.user.mapper.UserMapper;
 import com.jphilip.tm.user.repository.UserRepository;
 import com.jphilip.tm.user.service.util.query.Query;
@@ -21,12 +24,18 @@ public class GetUsersServiceHandler {
     }
 
     public UserResponseDTO getUserByEmail(String email) {
-        var user = userRepository.findByEmail(email).orElseThrow();
+
+        var user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EmailNotFoundException(email));
+
         return userMapper.toDto(user);
     }
 
     public UserResponseDTO getUserById(Long id) {
-        var user = userRepository.findById(id).orElseThrow();
+
+        var user = userRepository.findById(id)
+                .orElseThrow(() -> new IdNotFoundException(id.toString()));
+
         return userMapper.toDto(user);
     }
 }
