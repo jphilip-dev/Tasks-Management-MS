@@ -1,19 +1,21 @@
 package com.jphilip.tm.user.service;
 
-import com.jphilip.tm.user.dto.UserRequestDTO;
 import com.jphilip.tm.user.dto.UserResponseDTO;
 import com.jphilip.tm.user.entity.Role;
+import com.jphilip.tm.user.exception.custom.FieldErrorsException;
 import com.jphilip.tm.user.mapper.UserMapper;
 import com.jphilip.tm.user.repository.RoleRepository;
 import com.jphilip.tm.user.repository.UserRepository;
 import com.jphilip.tm.user.service.util.command.Command;
+import com.jphilip.tm.user.service.util.command.dto.CreateUserDTO;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.FieldError;
 
 @Service
 @RequiredArgsConstructor
-public class CreateUserService implements Command<UserRequestDTO, UserResponseDTO> {
+public class CreateUserService implements Command<CreateUserDTO, UserResponseDTO> {
 
     private static final String ROLE_USER = "USER";
 
@@ -22,9 +24,21 @@ public class CreateUserService implements Command<UserRequestDTO, UserResponseDT
     private final UserMapper userMapper;
 
     @Override
-    public UserResponseDTO execute(UserRequestDTO userRequestDTO) {
+    public UserResponseDTO execute(CreateUserDTO createUserDTO) {
 
-        var newUser = userMapper.toEntity(userRequestDTO);
+        var userRequestDTO = createUserDTO.userRequestDTO();
+        var bindingResult = createUserDTO.bindingResult();
+
+        if(!bindingResult.hasErrors() && userRepository.findByEmail(userRequestDTO.getEmail()).isPresent()){
+            bindingResult.addError(new FieldError("Email", "email", "Email already exists"));
+        }
+
+        // check binding result
+        if (bindingResult.hasErrors()){
+            throw new FieldErrorsException(bindingResult);
+        }
+
+        var newUser = userMapper.toEntity(createUserDTO.userRequestDTO());
 
         newUser.setIsActive(true); // dev
 

@@ -3,10 +3,12 @@ package com.jphilip.tm.user.controller;
 import com.jphilip.tm.user.dto.UserRequestDTO;
 import com.jphilip.tm.user.dto.UserResponseDTO;
 import com.jphilip.tm.user.service.*;
+import com.jphilip.tm.user.service.util.command.dto.CreateUserDTO;
 import com.jphilip.tm.user.service.util.command.dto.UpdateUserDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -40,8 +42,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO userRequestDTO){
-        var response = createUserService.execute(userRequestDTO);
+    public ResponseEntity<UserResponseDTO> createUser(@Valid @RequestBody UserRequestDTO userRequestDTO, BindingResult bindingResult){
+
+        var response = createUserService.execute(new CreateUserDTO(userRequestDTO, bindingResult));
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
