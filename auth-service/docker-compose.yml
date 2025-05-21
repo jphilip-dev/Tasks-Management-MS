@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: .     # path to Dockerfile
+      dockerfile: Dockerfile
+    image: auth-service:latest
+    container_name: auth-service
+    ports:
+      - "8083:8083"
+    environment:
+      - JWT_SECRET=a0e54a03982f518059f3ee07707d4e5cfc5644c4f272e8516848c4929642871c075c76ffe504366e79f98d3a3e5995a88e0b5b5b97e58ce0b0f1e699170a152d
+      - USER_SERVICE_URI=http://user-service:8082
+    networks:
+      - internal
+
+networks:
+  internal:
+    external: true
