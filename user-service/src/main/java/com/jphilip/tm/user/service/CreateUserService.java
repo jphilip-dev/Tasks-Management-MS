@@ -1,14 +1,12 @@
 package com.jphilip.tm.user.service;
 
 import com.jphilip.tm.user.dto.UserResponseDTO;
-import com.jphilip.tm.user.entity.Role;
 import com.jphilip.tm.user.exception.custom.FieldErrorException;
 import com.jphilip.tm.user.mapper.UserMapper;
 import com.jphilip.tm.user.repository.RoleRepository;
 import com.jphilip.tm.user.repository.UserRepository;
 import com.jphilip.tm.user.service.common.command.Command;
 import com.jphilip.tm.user.service.common.command.dto.CreateUserDTO;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -51,25 +49,5 @@ public class CreateUserService implements Command<CreateUserDTO, UserResponseDTO
         userRepository.save(newUser);
 
         return userMapper.toDto(newUser);
-    }
-    /*
-     *
-     *  Helper method/s
-     *
-     */
-
-    @PostConstruct
-    private void init() {
-        createRoleIfNotExists("USER", "User role");
-        createRoleIfNotExists("ADMIN", "Admin role");
-    }
-
-    private void createRoleIfNotExists(String roleName, String description) {
-        if (roleRepository.findByName(roleName).isEmpty()) {
-            roleRepository.save(Role.builder()
-                    .name(roleName)
-                    .description(description)
-                    .build());
-        }
     }
 }
