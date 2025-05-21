@@ -49,8 +49,11 @@ public class CreateUserService implements Command<CreateUserDTO, UserResponseDTO
         newUser.setIsActive(false);
 
         // validate team lead by id and set user as its member
-        var teamLead = userServiceHelper.validateUserById(userRequestDTO.getTeamLeadId());
-        teamLead.addTeamMember(newUser);
+        if (userRequestDTO.getTeamLeadId() != null){
+            var teamLead = userServiceHelper.validateUserById(userRequestDTO.getTeamLeadId());
+            teamLead.addTeamMember(newUser);
+        }
+
 
         userRepository.save(newUser);
 
