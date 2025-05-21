@@ -3,7 +3,7 @@ package com.jphilip.tm.user.service;
 import com.jphilip.tm.user.dto.UserResponseDTO;
 import com.jphilip.tm.user.exception.custom.EmailMismatchException;
 import com.jphilip.tm.user.exception.custom.FieldErrorException;
-import com.jphilip.tm.user.exception.custom.IdNotFoundException;
+import com.jphilip.tm.user.exception.custom.UserIdMismatchException;
 import com.jphilip.tm.user.mapper.UserMapper;
 import com.jphilip.tm.user.repository.UserRepository;
 import com.jphilip.tm.user.service.common.command.Command;
@@ -26,6 +26,7 @@ public class UpdateUserService implements Command<UpdateUserDTO, UserResponseDTO
     public UserResponseDTO execute(UpdateUserDTO updateUserDTO) {
 
         // Extract Data
+        var clientId =updateUserDTO.clientId();
         var id = updateUserDTO.id();
         var userRequestDTO = updateUserDTO.userRequestDTO();
         var bindingResult = updateUserDTO.bindingResult();
@@ -33,6 +34,11 @@ public class UpdateUserService implements Command<UpdateUserDTO, UserResponseDTO
         // To maintain uniformity as other service use this exception instead of MethodArgumentValEx....
         if (bindingResult.hasErrors()){
             throw new FieldErrorException(bindingResult);
+        }
+
+        // check ownership
+        if (!clientId.equals(id)){
+            throw new UserIdMismatchException();
         }
 
         // Retrieve existing user
@@ -43,16 +49,15 @@ public class UpdateUserService implements Command<UpdateUserDTO, UserResponseDTO
             throw new EmailMismatchException();
         }
 
-        // check ownership once auth service is ok
-
-
         // Update user fields base on the userRequestDTO
         user.setName(userRequestDTO.getName());
         user.setPassword( passwordEncoder.encode(userRequestDTO.getPassword()));
 
         // validate team lead by id and set user as its member
-        var teamLead = userServiceHelper.validateUserById(userRequestDTO.getTeamLeadId());
-        teamLead.addTeamMember(user);
+        if (userRequestDTO.getTeamLeadId() != null) {
+            var teamLead = userServiceHelper.validateUserById(userRequestDTO.getTeamLeadId());
+            teamLead.addTeamMember(user);
+        }
 
         userRepository.save(user);
 
