@@ -1,4 +1,4 @@
-package com.jphilip.tm.user.service.util.command.dto;
+package com.jphilip.tm.user.service.common.command.dto;
 
 import com.jphilip.tm.user.dto.UserRequestDTO;
 import org.springframework.validation.BindingResult;

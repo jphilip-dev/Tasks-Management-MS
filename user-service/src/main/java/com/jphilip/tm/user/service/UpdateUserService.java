@@ -6,8 +6,8 @@ import com.jphilip.tm.user.exception.custom.FieldErrorException;
 import com.jphilip.tm.user.exception.custom.IdNotFoundException;
 import com.jphilip.tm.user.mapper.UserMapper;
 import com.jphilip.tm.user.repository.UserRepository;
-import com.jphilip.tm.user.service.util.command.Command;
-import com.jphilip.tm.user.service.util.command.dto.UpdateUserDTO;
+import com.jphilip.tm.user.service.common.command.Command;
+import com.jphilip.tm.user.service.common.command.dto.UpdateUserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -48,7 +48,12 @@ public class UpdateUserService implements Command<UpdateUserDTO, UserResponseDTO
 
         // Update user fields base on the userRequestDTO
         user.setName(userRequestDTO.getName());
-        user.setPassword( passwordEncoder.encode(userRequestDTO.getPassword()) );
+        user.setPassword( passwordEncoder.encode(userRequestDTO.getPassword()));
+
+        // get team lead by id
+
+
+
         userRepository.save(user);
 
         return userMapper.toDto(user);

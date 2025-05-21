@@ -3,8 +3,8 @@ package com.jphilip.tm.user.controller;
 import com.jphilip.tm.user.dto.UserRequestDTO;
 import com.jphilip.tm.user.dto.UserResponseDTO;
 import com.jphilip.tm.user.service.*;
-import com.jphilip.tm.user.service.util.command.dto.CreateUserDTO;
-import com.jphilip.tm.user.service.util.command.dto.UpdateUserDTO;
+import com.jphilip.tm.user.service.common.command.dto.CreateUserDTO;
+import com.jphilip.tm.user.service.common.command.dto.UpdateUserDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,12 +30,13 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/email/{email}")
+    @GetMapping("/user-email/{email}")
     public ResponseEntity<UserResponseDTO> getUserByEmail(@PathVariable String email){
         var response = getUsersServiceHandler.getUserByEmail(email);
         return ResponseEntity.ok(response);
     }
-    @GetMapping("/id/{id}")
+
+    @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id){
         var response = getUsersServiceHandler.getUserById(id);
         return ResponseEntity.ok(response);
@@ -55,7 +56,7 @@ public class UserController {
         return ResponseEntity.created(location).body(response);
     }
 
-    @PutMapping("/id/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUserById(@PathVariable Long id,@Valid @RequestBody UserRequestDTO userRequestDTO, BindingResult bindingResult){
         var response = updateUserService.execute(new UpdateUserDTO(id, userRequestDTO, bindingResult));
         return ResponseEntity.accepted().body(response);

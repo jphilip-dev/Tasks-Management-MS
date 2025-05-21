@@ -1,12 +1,10 @@
 package com.jphilip.tm.user.service;
 
 import com.jphilip.tm.user.dto.UserResponseDTO;
-import com.jphilip.tm.user.exception.ErrorCode;
 import com.jphilip.tm.user.exception.custom.EmailNotFoundException;
 import com.jphilip.tm.user.exception.custom.IdNotFoundException;
 import com.jphilip.tm.user.mapper.UserMapper;
 import com.jphilip.tm.user.repository.UserRepository;
-import com.jphilip.tm.user.service.util.query.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
