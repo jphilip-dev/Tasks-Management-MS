@@ -15,6 +15,7 @@ import java.util.List;
 public class GetUsersServiceHandler {
 
     private final UserRepository userRepository;
+    private final UserServiceHelper userServiceHelper;
     private final UserMapper userMapper;
 
     public List<UserResponseDTO> getAllUsers() {
@@ -22,18 +23,12 @@ public class GetUsersServiceHandler {
     }
 
     public UserResponseDTO getUserByEmail(String email) {
-
-        var user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EmailNotFoundException(email));
-
+        var user = userServiceHelper.validateUserByEmail(email);
         return userMapper.toDto(user);
     }
 
     public UserResponseDTO getUserById(Long id) {
-
-        var user = userRepository.findById(id)
-                .orElseThrow(() -> new IdNotFoundException(id.toString()));
-
+        var user = userServiceHelper.validateUserById(id);
         return userMapper.toDto(user);
     }
 }
