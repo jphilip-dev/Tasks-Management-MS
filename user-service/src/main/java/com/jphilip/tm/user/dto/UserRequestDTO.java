@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -19,4 +21,8 @@ public class UserRequestDTO {
 
     @NotBlank
     private String password;
+
+    private Long teamLeadId;
+
+    private List<Long> teamMembersId;
 }
