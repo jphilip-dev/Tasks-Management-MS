@@ -18,6 +18,7 @@ public class UpdateUserService implements Command<UpdateUserDTO, UserResponseDTO
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserServiceHelper userServiceHelper;
     private final UserMapper userMapper;
 
 
@@ -35,8 +36,7 @@ public class UpdateUserService implements Command<UpdateUserDTO, UserResponseDTO
         }
 
         // Retrieve existing user
-        var user = userRepository.findById(id)
-                .orElseThrow(() -> new IdNotFoundException(id.toString()));
+        var user = userServiceHelper.validateUserById(id);
 
         // Check existing and update request email is matching NOTE: EMAIL is final
         if (!user.getEmail().equals(userRequestDTO.getEmail())){
@@ -50,9 +50,9 @@ public class UpdateUserService implements Command<UpdateUserDTO, UserResponseDTO
         user.setName(userRequestDTO.getName());
         user.setPassword( passwordEncoder.encode(userRequestDTO.getPassword()));
 
-        // get team lead by id
-
-
+        // validate team lead by id and set user as its member
+        var teamLead = userServiceHelper.validateUserById(userRequestDTO.getTeamLeadId());
+        teamLead.addTeamMember(user);
 
         userRepository.save(user);
 
