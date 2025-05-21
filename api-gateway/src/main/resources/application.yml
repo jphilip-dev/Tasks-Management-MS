@@ -9,3 +9,17 @@ spring:
           uri: ${TASK_SERVICE_URI}
           predicates:
             - Path=/tasks/**
+          filters:
+            - JwtValidation
+
+        - id: user-service-route
+          uri: ${USER_SERVICE_URI}
+          predicates:
+            - Path=/users/**
+          filters:
+            - JwtValidation
+
+        - id: auth-service-route
+          uri: ${AUTH_SERVICE_URI}
+          predicates:
+            - Path=/auth/**
