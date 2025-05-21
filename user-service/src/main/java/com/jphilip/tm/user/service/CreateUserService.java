@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 
+
 @Service
 @RequiredArgsConstructor
 public class CreateUserService implements Command<CreateUserDTO, UserResponseDTO> {
@@ -21,7 +22,9 @@ public class CreateUserService implements Command<CreateUserDTO, UserResponseDTO
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserServiceHelper userServiceHelper;
     private final UserMapper userMapper;
+
 
     @Override
     public UserResponseDTO execute(CreateUserDTO createUserDTO) {
@@ -40,12 +43,15 @@ public class CreateUserService implements Command<CreateUserDTO, UserResponseDTO
 
         var newUser = userMapper.toEntity(createUserDTO.userRequestDTO());
 
-        // Parse Password
+        // Parse Password, add role and set status to false(inactive)
         newUser.setPassword(passwordEncoder.encode(userRequestDTO.getPassword()));
-
-        newUser.setIsActive(true); // dev
-
         newUser.addRole(roleRepository.findByName(ROLE_USER).orElseThrow());
+        newUser.setIsActive(false);
+
+        // validate team lead by id and set user as its member
+        var teamLead = userServiceHelper.validateUserById(userRequestDTO.getTeamLeadId());
+        teamLead.addTeamMember(newUser);
+
         userRepository.save(newUser);
 
         return userMapper.toDto(newUser);
